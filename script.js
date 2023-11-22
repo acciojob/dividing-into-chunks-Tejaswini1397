@@ -2,30 +2,34 @@ const arr = [1, 2, 3, 4, 1, 0, 2, 2];
 
 const divide = (arr, n) => {
   // Write your code here
-	
-	let result = [];
-  let currentSubarray = [];
-  let currentSum = 0;
-
-  for (let i = 0; i < arr.length; i++) {
-    // Check if adding the current element exceeds the maximum sum
-    if (currentSum + arr[i] > n) {
-      // If yes, start a new subarray
-      result.push(currentSubarray);
-      currentSubarray = [arr[i]];
-      currentSum = arr[i];
-    } else {
-      // If no, add the current element to the current subarray
-      currentSubarray.push(arr[i]);
-      currentSum += arr[i];
-    }
+if (n <= 0) {
+    return "Invalid input: n should be greater than 0";
   }
 
-  // Add the last subarray to the result
-  result.push(currentSubarray);
+   
+  const result = [];
+  let currentSubarray = [];
 
-	return result;
-	
+  for (let i = 0; i < arr.length; i++) {
+    const currentElement = arr[i];
+
+    // Check if adding the current element exceeds the maximum sum
+    if (
+      currentSubarray.reduce((sum, num) => sum + num, 0) + currentElement <= n
+    ) {
+      currentSubarray.push(currentElement);
+    } else {
+      // Start a new subarray
+      result.push([...currentSubarray]);
+      currentSubarray = [currentElement];
+    }
+  }
+  // Add the last subarray
+  if (currentSubarray.length > 0) {
+    result.push([...currentSubarray]);
+  }
+
+  return result;
 };
 
 const n = prompt("Enter n: ");
